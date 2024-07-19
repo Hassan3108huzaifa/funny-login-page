@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="login-button" type="button">Login</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const loginButton = document.getElementById('login-button');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const container = document.querySelector('.container');
+
+            const moveButton = () => {
+                const buttonRect = loginButton.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+
+                let newLeft, newTop;
+
+                // Ensure the button stays within the container bounds
+                do {
+                    newLeft = Math.random() * (containerRect.width - buttonRect.width);
+                    newTop = Math.random() * (containerRect.height - buttonRect.height);
+                } while (
+                    Math.abs(newLeft - buttonRect.left) < 50 &&
+                    Math.abs(newTop - buttonRect.top) < 50
+                );
+
+                loginButton.style.position = 'absolute';
+                loginButton.style.left = `${newLeft}px`;
+                loginButton.style.top = `${newTop}px`;
+            };
+
+            const validateInputs = () => {
+                if (emailInput.value === '' || passwordInput.value === '') {
+                    moveButton();
+                    return false;
+                }
+                if (!emailInput.value.endsWith('@gmail.com')) {
+                    moveButton();
+                    return false;
+                }
+                return true;
+            };
+
+            loginButton.addEventListener('mouseover', () => {
+                if (!validateInputs()) {
+                    moveButton();
+                }
+            });
+
+            loginButton.addEventListener('touchstart', () => {
+                if (!validateInputs()) {
+                    moveButton();
+                }
+            });
+
+            loginButton.addEventListener('click', () => {
+                if (validateInputs()) {
+                    alert('Logged in successfully!');
+                } else {
+                    moveButton();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
